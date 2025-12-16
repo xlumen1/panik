@@ -1,0 +1,12 @@
+[package]
+name = "demo_package"
+version = "1.3.7"
+arch = "x86_64"
+desc = "Demo package for PANIK package manager"
+license = "MIT"
+
+[dependencies]
+"glibc"="[2.38,)"
+
+[[triggers]]
+name = "ldconfig"
