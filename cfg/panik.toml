@@ -1,0 +1,13 @@
+[system]
+root="/"
+arch="x86_64"
+cache="/var/cache/panik"
+local="/var/lib/panik"
+
+[behavior]
+color=true
+confirm=true
+verbose=false
+
+retries=10
+timeout=3 # 3 seconds

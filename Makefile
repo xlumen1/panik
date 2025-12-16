@@ -3,27 +3,33 @@ LD      := cc
 
 INCLUDE := include
 SRC     := src
+VENDOR  := vendor
 BUILD   := build
 OBJ     := $(BUILD)/obj
 
-CCFLAGS := -Wextra -Wall -c -I$(INCLUDE)
-LDFLAGS := # \(0-0)/
+CCFLAGS := -Wall -Wextra -std=c11 -I$(INCLUDE) -I$(VENDOR) $(shell pkg-config --cflags libcurl)
+LDFLAGS := $(shell pkg-config --libs libcurl)
 
-C_SRC   := $(wildcard $(SRC)/*.c)
-C_OBJ := $(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(C_SRC))
+# Project sources
+ALL_SRC   := $(shell find $(SRC) -name "*.c") $(VENDOR)/tomlc17/toml.c
+ALL_OBJ := $(patsubst %,$(OBJ)/%,$(ALL_SRC:.c=.o))
 
 BIN := $(BUILD)/panik
 
-$(OBJ)/%.o: $(SRC)/%.c
+# Project compilation
+$(OBJ)/%.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CCFLAGS) $^ -o $@
+	$(CC) $(CCFLAGS) -c $< -o $@
 
-$(BIN): $(C_OBJ)
+# Linking
+$(BIN): $(ALL_OBJ)
 	mkdir -p $(dir $@)
-	$(LD) $(LDFLAGS) -o $@ $<
+	$(LD) $(LDFLAGS) -o $@ $^
 
-# The frontend
-
+# Frontend
 build: $(BIN)
+
 clean:
 	rm -rf $(BUILD)
+
+.PHONY: build clean

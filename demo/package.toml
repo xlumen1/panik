@@ -6,7 +6,7 @@ desc = "Demo package for PANIK package manager"
 license = "MIT"
 
 [dependencies]
-"glibc"="[2.38,)"
+glibc="[2.38,)"
 
 [[triggers]]
 name = "ldconfig"
