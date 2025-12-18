@@ -1,15 +1,24 @@
 #include "panik.h"
 #include "tomlc17/toml.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+int hash(unsigned char *str) {
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c;
+
+    return (int)(long)(void*)hash;
+}
 
 void show_help() {
     printf("Panik Help\n");
 }
 
-void error(char* e) {
+int error(char* e) {
     fprintf(stderr, "%s\n", e);
+    return hash(e);
 }
 
 struct config getconfig(char path[256]) {
@@ -17,15 +26,14 @@ struct config getconfig(char path[256]) {
 
     FILE* fp = fopen(path, "r");
     if (!fp) {
-        error("Config file not found");
-        exit(404);
+        exit(error("Config file not found"));
     }
 
     toml_result_t r =  toml_parse_file(fp);
     fclose(fp);
 
     if (!r.ok) {
-        error(r.errmsg);
+        exit(error(r.errmsg));
     }
 
     toml_datum_t root = toml_seek(r.toptab, "system.root");
@@ -60,8 +68,7 @@ struct repos getrepos(char path[256]) {
     struct repos repos = {};
     FILE* fp = fopen(path, "r");
     if (!fp) {
-        error("Config file not found");
-        exit(404);
+        exit(error("Config file not found"));
     }
 
     char line[512];
@@ -72,11 +79,11 @@ struct repos getrepos(char path[256]) {
         ln++;
         if (line[0] == '#' || line[0] == '\n') continue;
 
-        int c = strcspn(line, "#");
-        int e = strcspn(line, "\r\n");
-        for (int i = c; c <= e; c++) {
-            line[i] = 0;
-        }
+        char *hash = strchr(line, '#');
+        if (hash)
+            *hash = '\0';
+        
+        line[strcspn(line, "\r\n")] = '\0';
 
         char name[MAX_NAME];
         char url[MAX_URL];
@@ -87,11 +94,11 @@ struct repos getrepos(char path[256]) {
         }
 
         if (repos.count < 32) {
-            snprintf(repos.repositories[repos.count].name, sizeof(name), "%s", name);
-            snprintf(repos.repositories[repos.count].path, sizeof(url), "%s", url);
+            snprintf(repos.repositories[repos.count].name, sizeof(repos.repositories[repos.count].name), "%s", name);
+            snprintf(repos.repositories[repos.count].path, sizeof(repos.repositories[repos.count].path), "%s", url);
             repos.count++;
         } else {
-            error("Too many repositories defined!");
+            exit(error("Too many repositories defined!"));
             break;
         }
     }

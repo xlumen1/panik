@@ -19,12 +19,12 @@ BIN := $(BUILD)/panik
 # Project compilation
 $(OBJ)/%.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CCFLAGS) -c $< -o $@
+	$(CC) -c $< -o $@ $(CCFLAGS)
 
 # Linking
 $(BIN): $(ALL_OBJ)
 	mkdir -p $(dir $@)
-	$(LD) $(LDFLAGS) -o $@ $^
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 # Frontend
 build: $(BIN)

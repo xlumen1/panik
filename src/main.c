@@ -1,8 +1,8 @@
 #include "panik.h"
 #include <stdio.h>
-#include <string.h>
 
 int main(int argc, char** argv) {
+    curl_global_init(0);
     pk_mode_t mode = MODE_NONE;
     char config_path[MAX_URL] = "/etc/panik/panik.toml";
     char repository[MAX_NAME] = "";
@@ -25,22 +25,22 @@ int main(int argc, char** argv) {
             break;
 
         case 's':
-            if (mode) error("multiple modes specified");
+            if (mode) return error("multiple modes specified");
             mode = MODE_SYNC;
             break;
         
         case 'u':
-            if (mode) error("multiple modes specified");
+            if (mode) return error("multiple modes specified");
             mode = MODE_UPGRADE;
             break;
         
         case 'i':
-            if (mode) error("multiple modes specified");
+            if (mode) return error("multiple modes specified");
             mode = MODE_INSTALL;
             break;
 
         case 'r':
-            if (mode) error("multiple modes specified");
+            if (mode) return error("multiple modes specified");
             mode = MODE_REMOVE;
             break;
 
@@ -55,23 +55,16 @@ int main(int argc, char** argv) {
     char cpath[256];
     int n = snprintf(cpath, sizeof(cpath), "%s/panik.toml", config_path);
     if (n < 0 || n >= (int)sizeof(cpath)) {
-        fprintf(stderr, "config path too long!\n");
-        return 1;
+        return error("Config path too long!\n");
     }
 
     char rpath[256];
     n = snprintf(rpath, sizeof(rpath), "%s/repos.conf", config_path);
     if (n < 0 || n >= (int)sizeof(rpath)) {
-        fprintf(stderr, "config path too long!\n");
-        return 1;
+        return error("Config path too long!\n");
     }
     struct config config = getconfig(cpath);
     struct repos repos = getrepos(rpath);
-    printf("Arch=%s\n", config.arch);
-    printf("Verbose? %s\n", config.verbose ? "Yes" : "No");
-    for (int i = 0; i < repos.count; i++) {
-        printf("%s: %s\n", repos.repositories[i].name, repos.repositories[i].path);
-    }
 
     switch (mode)
     {
@@ -84,8 +77,7 @@ int main(int argc, char** argv) {
 
     case MODE_INSTALL:
         if (arg_count < 1) {
-            error("No packages specified");
-            return -1;
+            return error("No packages specified");
         }
         // pk_install(args, arg_count)
         break;
@@ -95,8 +87,7 @@ int main(int argc, char** argv) {
         break;
 
     case MODE_NONE:
-        error("no mode specified");
-        return -1;
+        return error("No mode specified");
     }
     
     return 0;

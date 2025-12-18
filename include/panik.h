@@ -1,5 +1,8 @@
 #pragma once
 #include <getopt.h>
+#include <curl/curl.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define MAX_NAME 32
 #define MAX_URL 256
@@ -37,16 +40,18 @@ struct config {
     int timeout;
 };
 
-struct repos {
-    int count;
-    struct {
+struct repo {
         char name[MAX_NAME];
         char path[MAX_URL];
-    } repositories[32];
+};
+
+struct repos {
+    int count;
+    struct repo repositories[32];
 };
 
 void show_help();
-void error(char* e);
+int error(char* e);
 
 struct config getconfig(char path[256]);
 struct repos getrepos(char path[256]);
