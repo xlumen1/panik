@@ -1,2 +1,5 @@
 *.md diff=markdown
 *.c text eol=lf
+*.h text eol=lf
+
+*.db binary

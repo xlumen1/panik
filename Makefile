@@ -7,8 +7,8 @@ VENDOR  := vendor
 BUILD   := build
 OBJ     := $(BUILD)/obj
 
-CCFLAGS := -Wall -Wextra -std=c11 -I$(INCLUDE) -I$(VENDOR) $(shell pkg-config --cflags libcurl)
-LDFLAGS := $(shell pkg-config --libs libcurl)
+CCFLAGS := -Wall -Wextra -std=c11 -I$(INCLUDE) -I$(VENDOR) $(shell pkg-config --cflags libcurl) $(shell pkg-config --cflags sqlite3)
+LDFLAGS := $(shell pkg-config --libs libcurl) $(shell pkg-config --libs sqlite3)
 
 # Project sources
 ALL_SRC   := $(shell find $(SRC) -name "*.c") $(VENDOR)/tomlc17/toml.c
