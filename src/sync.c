@@ -1,11 +1,11 @@
 #include "panik.h"
 #include <sys/types.h>
-#include <unistd.h>
 
 int download_repo_index(CURL* ch, struct repo repo);
 
 int pk_sync(char** argv, int argc, struct repos repos) {
-    CURL* ch = curl_easy_init();
+    enforce_root();
+	CURL* ch = curl_easy_init();
     if (!ch) {
         return 1;
     }

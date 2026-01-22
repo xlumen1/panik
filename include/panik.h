@@ -4,6 +4,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <unistd.h>
+
+#define enforce_root() \
+	do { \
+		int x = require_root(); \
+		if (x != 0) { \
+			return x; \
+		} \
+	} while(0)
 
 #define MAX_NAME 32
 #define MAX_URL 256
@@ -63,7 +72,7 @@ struct repos getrepos(char path[256]);
 
 size_t write_file_cb(void* ptr, size_t size, size_t nmemb, FILE* stream);
 int ensure_dir(const char* path);
-
+int require_root();
 
 int pk_sync(char** argv, int argc, struct repos repos);
 

@@ -144,3 +144,10 @@ int ensure_dir(const char* path) {
     }
     return mkdir(path, 0755);
 }
+
+int require_root() {
+	if (geteuid() != 0) {
+		return error("Not running as root (use sudo?)");
+	}
+	return 0;
+}
