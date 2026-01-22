@@ -52,7 +52,7 @@ struct repos {
     struct repo repositories[32];
 };
 
-static struct config config;
+extern struct config config;
 
 void show_help();
 int error(char* e);

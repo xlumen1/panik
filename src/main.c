@@ -1,6 +1,8 @@
 #include "panik.h"
 #include <stdio.h>
 
+struct config config;
+
 int main(int argc, char** argv) {
     curl_global_init(0);
     pk_mode_t mode = MODE_NONE;
@@ -65,8 +67,6 @@ int main(int argc, char** argv) {
     }
     config = getconfig(cpath);
     struct repos repos = getrepos(rpath);
-	
-	printf("Color: %d\n", config.color);
 
     switch (mode)
     {

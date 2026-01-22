@@ -57,10 +57,10 @@ int download_repo_index(CURL* ch, struct repo repo) {
     char tmp_path[512];
     char final_path[512];
 
-    snprintf(url, sizeof(url), "%s/index", repo.path);
+    snprintf(url, sizeof(url), "%s/index.db", repo.path);
     snprintf(dir, sizeof(dir), "/var/lib/panik/repos/%s", repo.name);
     snprintf(tmp_path, sizeof(tmp_path), "%s/index.tmp", dir);
-    snprintf(final_path, sizeof(final_path), "%s/index", dir);
+    snprintf(final_path, sizeof(final_path), "%s/index.db", dir);
 
     if (ensure_dir("/var/lib/panik") != 0)
         return error("Failed to create /var/lib/panik");
