@@ -6,7 +6,13 @@ SRC     := src
 VENDOR  := vendor
 BUILD   := build
 OBJ     := $(BUILD)/obj
+
 BUILD_TYPE ?= debug
+PREFIX  ?= /usr
+BINDIR  ?= $(PREFIX)/bin
+MANDIR  ?= $(PREFIX)/share/man
+INSTALL ?= install
+
 
 COMMON_FLAGS := -Wall -Wextra -Wpedantic -std=gnu11 \
                 -I$(INCLUDE) -I$(VENDOR) \
@@ -54,4 +60,25 @@ build: $(BIN)
 clean:
 	rm -rf $(BUILD)
 
-.PHONY: build clean
+install: $(BIN)
+	$(MAKE) clean
+	$(MAKE) BUILD_TYPE=release $(BIN)
+	$(INSTALL) -d $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 0755 $(BIN) $(DESTDIR)$(BINDIR)/panik
+	$(INSTALL) -d $(DESTDIR)$(MANDIR)/man1
+	$(INSTALL) -m 0644 doc/panik.1 $(DESTDIR)$(MANDIR)/man1/panik.1
+
+uninstall:
+	rm -f $(DESTDIR)$(BINDIR)/panik
+	rm -f $(DESTDIR)$(MANDIR)/man1/panik.1
+
+package:
+	$(MAKE) clean
+	$(MAKE) BUILD_TYPE=release $(BIN)
+	mkdir -p $(BUILD)/pkg{$(BINDIR),$(MANDIR)}
+	cp $(BIN) $(BUILD)/pkg$(BINDIR)
+	cp doc/panik.1 $(BUILD)/pkg$(MANDIR)
+	tar czf $(BUILD)/panik.tar.gz $(BUILD)/pkg/*	
+	rm -rf $(BUILD)/pkg
+
+.PHONY: build clean install uninstall package

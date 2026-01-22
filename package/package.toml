@@ -1,0 +1,15 @@
+[package]
+name = "panik"
+version = "0.0.1"
+arch = "x86_64"
+desc = "Panik package for panik package manager"
+license = "MIT"
+
+[dependencies]
+glibc="[2.30,)"
+libcurl="[7.74.0,)"
+sqlite="[3.30.0,)"
+
+[[triggers]]
+name = "mandb"
+

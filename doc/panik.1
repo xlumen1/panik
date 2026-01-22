@@ -1,0 +1,99 @@
+.TH PANIK 1 "2026-01-22" "0.0.1" "User Commands"
+.SH NAME
+panik \- package manager
+
+.SH SYNOPSIS
+.B panik
+.RI [ options ] " command " [ arguments ]
+
+.SH DESCRIPTION
+.B panik
+is a package manager for FoundryOS and most other linux distros.
+
+.SH OPTIONS
+.TP
+.BR \-C ", " \-\-config " <dir>"
+Use an alternative configuration directory.
+
+.TP
+.BR \-R ", " \-\-repo " <repo>"
+Select target repository.
+
+.TP
+.BR \-y ", " \-\-yes
+Assume yes for all prompts.
+
+.SH COMMANDS
+The following commands are available.
+
+.SH HELP
+.BR panik " \-h"
+.br
+.BR panik " \-\-help"
+.P
+Show help and exit.
+
+.SH VERSION
+.BR panik " \-v"
+.br
+.BR panik " \-\-version"
+.P
+Show version information and exit.
+
+.SH SYNC
+.BR panik " \-s " [ repo ] ...
+.br
+.BR panik " \-\-sync " [ repo ] ...
+.P
+Synchronize the local package index with repositories.
+If no repository is specified, all repositories are synchronized.
+
+.SH INSTALL
+.BR panik " \-i " package ...
+.br
+.BR panik " \-\-install " package ...
+.P
+Install one or more packages.
+
+.SH UPGRADE
+.BR panik " \-u " [ package ] ...
+.br
+.BR panik " \-\-upgrade " [ package ] ...
+.P
+Upgrade packages.
+If no package is specified, all installed packages are upgraded.
+
+.SH REMOVE
+.BR panik " \-r " [ package ] ...
+.br
+.BR panik " \-\-remove " [ package ] ...
+.P
+Remove packages.
+If no package is specified, remove unneeded auto-installed packages.
+
+.SH EXIT STATUS
+.TP
+.B 0
+Success.
+
+.TP
+.B none-zero
+Failure.
+The exit status is the hash of the last error message.
+.P
+The numeric value of the hash is not guaranteed to be stable across versions.
+
+
+.SH FILES
+.TP
+.I /etc/panik/
+Configuration files.
+
+.TP
+.I /var/cache/panik/
+Default package cache.
+
+.TP
+.I /var/lib/panik/
+Default local data and indexes.
+
