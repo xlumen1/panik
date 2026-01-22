@@ -47,6 +47,7 @@ int pk_sync(char** argv, int argc, struct config config, struct repos repos) {
     }
     
     curl_easy_cleanup(ch);
+	free(repo_queue);
     return 0;
 }
 

@@ -49,8 +49,6 @@ struct config getconfig(char path[256]) {
     toml_datum_t retries = toml_seek(r.toptab, "behavior.retries");
     toml_datum_t timeout = toml_seek(r.toptab, "behavior.timeout");
 
-    toml_free(r);
-
     snprintf(out.root, sizeof(root.u.s), "%s", root.u.s);
     snprintf(out.arch, sizeof(arch.u.s), "%s", arch.u.s);
     snprintf(out.cache, sizeof(cache.u.s), "%s", cache.u.s);
@@ -63,6 +61,8 @@ struct config getconfig(char path[256]) {
 
     out.retries = retries.u.int64;
     out.timeout = timeout.u.int64;
+	
+	toml_free(r);
 
     return out;
 }
