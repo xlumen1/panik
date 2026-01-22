@@ -52,6 +52,8 @@ struct repos {
     struct repo repositories[32];
 };
 
+static struct config config;
+
 void show_help();
 int error(char* e);
 
@@ -62,4 +64,5 @@ size_t write_file_cb(void* ptr, size_t size, size_t nmemb, FILE* stream);
 int ensure_dir(const char* path);
 
 
-int pk_sync(char** argv, int argc, struct config config, struct repos repos);
+int pk_sync(char** argv, int argc, struct repos repos);
+

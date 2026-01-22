@@ -18,8 +18,12 @@ void show_help() {
 }
 
 int error(char* e) {
-    fprintf(stderr, "%s\n", e);
-    return hash(e);
+	if (config.color) {
+		fprintf(stderr, "\x1b[1;31m%s\x1b[0m\n", e);
+	} else {
+		fprintf(stderr, "%s\n", e);
+	}
+	return hash(e);
 }
 
 struct config getconfig(char path[256]) {

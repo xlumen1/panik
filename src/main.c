@@ -63,13 +63,15 @@ int main(int argc, char** argv) {
     if (n < 0 || n >= (int)sizeof(rpath)) {
         return error("Config path too long!\n");
     }
-    struct config config = getconfig(cpath);
+    config = getconfig(cpath);
     struct repos repos = getrepos(rpath);
+	
+	printf("Color: %d\n", config.color);
 
     switch (mode)
     {
     case MODE_SYNC:
-        return pk_sync(args, arg_count, config, repos);
+        return pk_sync(args, arg_count, repos);
 
     case MODE_UPGRADE:
         // pk_upgrade(args, arg_count)
