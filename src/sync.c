@@ -1,9 +1,8 @@
 #include "panik.h"
-#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-int download_repo_index(CURL* ch, struct repo repo, struct config config);
+int download_repo_index(CURL* ch, struct repo repo);
 
 int pk_sync(char** argv, int argc, struct config config, struct repos repos) {
     CURL* ch = curl_easy_init();
@@ -44,32 +43,16 @@ int pk_sync(char** argv, int argc, struct config config, struct repos repos) {
             continue;
         
         printf("Downloading %s index from %s.\n", repos.repositories[idx].name, repos.repositories[idx].path);
-        int r = download_repo_index(ch, repos.repositories[idx], config);
+        download_repo_index(ch, repos.repositories[idx]);
     }
     
     curl_easy_cleanup(ch);
     return 0;
 }
 
-size_t write_file_cb(void* ptr, size_t size, size_t nmemb, FILE* stream) {
-    FILE* f = stream;
-    return fwrite(ptr, size, nmemb, f);
-}
-
-
-int ensure_dir(const char* path) {
-    struct stat st;
-    if (stat(path, &st) == 0) {
-        if (S_ISDIR(st.st_mode))
-            return 0;
-        return -1;
-    }
-    return mkdir(path, 0755);
-}
-
-int download_repo_index(CURL* ch, struct repo repo, struct config config) {
-    char url[512];
-    char dir[512];
+int download_repo_index(CURL* ch, struct repo repo) {
+    char url[512 - 32];
+    char dir[512 - 32];
     char tmp_path[512];
     char final_path[512];
 

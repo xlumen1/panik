@@ -3,6 +3,7 @@ root="/"
 arch="x86_64"
 cache="/var/cache/panik"
 local="/var/lib/panik"
+temp="/tmp/panik"
 
 [behavior]
 color=true

@@ -7,7 +7,7 @@ VENDOR  := vendor
 BUILD   := build
 OBJ     := $(BUILD)/obj
 
-CCFLAGS := -Wall -Wextra -std=c11 -I$(INCLUDE) -I$(VENDOR) $(shell pkg-config --cflags libcurl) $(shell pkg-config --cflags sqlite3)
+CCFLAGS := -Wall -Wextra -std=gnu11 -I$(INCLUDE) -I$(VENDOR) $(shell pkg-config --cflags libcurl) $(shell pkg-config --cflags sqlite3)
 LDFLAGS := $(shell pkg-config --libs libcurl) $(shell pkg-config --libs sqlite3)
 
 # Project sources

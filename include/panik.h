@@ -3,6 +3,7 @@
 #include <curl/curl.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 #define MAX_NAME 32
 #define MAX_URL 256
@@ -31,6 +32,7 @@ struct config {
     char arch[32];
     char cache[MAX_URL];
     char local[MAX_URL];
+    char temp[MAX_URL];
 
     int color;
     int confirm;
@@ -55,5 +57,9 @@ int error(char* e);
 
 struct config getconfig(char path[256]);
 struct repos getrepos(char path[256]);
+
+size_t write_file_cb(void* ptr, size_t size, size_t nmemb, FILE* stream);
+int ensure_dir(const char* path);
+
 
 int pk_sync(char** argv, int argc, struct config config, struct repos repos);

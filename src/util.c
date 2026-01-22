@@ -2,11 +2,12 @@
 #include "tomlc17/toml.h"
 #include <stdio.h>
 
-int hash(unsigned char *str) {
+int hash(char *str) {
     unsigned long hash = 5381;
+    unsigned char *s = (unsigned char*)str;
     int c;
 
-    while (c = *str++)
+    while ((c = *s++))
         hash = ((hash << 5) + hash) + c;
 
     return (int)(long)(void*)hash;
@@ -40,6 +41,7 @@ struct config getconfig(char path[256]) {
     toml_datum_t arch = toml_seek(r.toptab, "system.arch");
     toml_datum_t cache = toml_seek(r.toptab, "system.cache");
     toml_datum_t local = toml_seek(r.toptab, "system.local");
+    toml_datum_t temp = toml_seek(r.toptab, "system.temp");
 
     toml_datum_t color = toml_seek(r.toptab, "behavior.color");
     toml_datum_t confirm = toml_seek(r.toptab, "behavior.confirm");
@@ -53,6 +55,7 @@ struct config getconfig(char path[256]) {
     snprintf(out.arch, sizeof(arch.u.s), "%s", arch.u.s);
     snprintf(out.cache, sizeof(cache.u.s), "%s", cache.u.s);
     snprintf(out.local, sizeof(local.u.s), "%s", local.u.s);
+    snprintf(out.temp, sizeof(temp.u.s), "%s", temp.u.s);
 
     out.color = color.u.boolean;
     out.confirm = confirm.u.boolean;
@@ -105,4 +108,20 @@ struct repos getrepos(char path[256]) {
 
     fclose(fp);
     return repos;
+}
+
+size_t write_file_cb(void* ptr, size_t size, size_t nmemb, FILE* stream) {
+    FILE* f = stream;
+    return fwrite(ptr, size, nmemb, f);
+}
+
+
+int ensure_dir(const char* path) {
+    struct stat st;
+    if (stat(path, &st) == 0) {
+        if (S_ISDIR(st.st_mode))
+            return 0;
+        return -1;
+    }
+    return mkdir(path, 0755);
 }
