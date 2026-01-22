@@ -12,11 +12,12 @@ static const struct option long_opts[] = {
     {"help",    no_argument,       0, 'h'},
     {"root",    required_argument, 0, 'R'},
     {"config",  required_argument, 0, 'C'},
+	{"yes",     no_argument,       0, 'y'},
     {"sync",    no_argument,       0, 's'},
     {"install", no_argument,       0, 'i'},
     {"remove",  no_argument,       0, 'r'},
     {"upgrade", no_argument,       0, 'u'},
-    {0, 0, 0, 0}
+	{0, 0, 0, 0}
 };
 
 typedef enum {

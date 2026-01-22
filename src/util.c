@@ -14,15 +14,22 @@ int hash(char *str) {
 }
 
 void show_help() {
-    printf("Panik Help\n");
-	printf("Usage:\npanik [-C <dir>] [-R <repo>] {-h|-s [repo] ...|-i <package> ...|-u [package] ...|-r [package] ...}\n\n");
-	printf("-C --config        Set config directory.\n");
-	printf("-R --repo          Set target repository.\n");
-	printf("-h --help          Show this screen.\n");
-	printf("-s --sync          Update local index.\n");
-	printf("-i --install       Install packages.\n");
-	printf("-u --upgrade       Upgrade packages.\n");
-	printf("-r --remove        Remove packages.\n");
+	printf("Panik - Package manager\n");
+	printf("\n");
+	printf("Usage:\n");
+	printf("  panik [-C <dir>] [-R <repo>] [-y] {-h|-s [repo] ...|-i <package> ...|-u [package] ...|-r [package] ...}\n");
+	printf("\n");
+	printf("Options:\n");
+	printf("  -C --config <dir>   Set custom config directory.\n");
+	printf("  -R --repo <repo>    Set target repository.\n");
+	printf("  -y                  Automatically answer yes to prompts ([Y/n]).\n");
+	printf("\n");
+	printf("Commands:\n");
+	printf("  -h                  Show this help screen.\n");
+	printf("  -s [repo] ...       Sync local index with repos. If no repo is given, sync all.\n");
+	printf("  -i <package> ...    Install one or more packages.\n");
+	printf("  -u [package] ...    Upgrade packages. If no package is given, upgrade all installed.\n");
+	printf("  -r [package] ...    Remove packages. If no package is given, remove unneeded auto-installed packages.\n");
 }
 
 int error(char* e) {

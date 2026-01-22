@@ -8,9 +8,10 @@ int main(int argc, char** argv) {
     pk_mode_t mode = MODE_NONE;
     char config_path[MAX_URL] = "/etc/panik";
     char repository[MAX_NAME] = "";
+	int yes = 0;
 
     int opt;
-    while ((opt = getopt_long(argc, argv, "hR:C:suir", long_opts, NULL)) != -1) {
+    while ((opt = getopt_long(argc, argv, "hR:C:ysuir", long_opts, NULL)) != -1) {
         switch (opt) {
         case 'h':
             show_help();
@@ -25,6 +26,9 @@ int main(int argc, char** argv) {
             strncpy(config_path, optarg, sizeof(config_path) - 1);
             config_path[sizeof(config_path) - 1] = '\0';
             break;
+		case 'y':
+			yes = 1;
+			break;
 
         case 's':
             if (mode) return error("multiple modes specified");
@@ -66,7 +70,10 @@ int main(int argc, char** argv) {
         return error("Config path too long!\n");
     }
     config = getconfig(cpath);
-    struct repos repos = getrepos(rpath);
+	if (yes) {
+		config.confirm = 0;
+	}
+	struct repos repos = getrepos(rpath);
 
     switch (mode)
     {
