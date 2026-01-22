@@ -1,5 +1,4 @@
 #include "db.h"
-#include "panik.h"
 
 int pk_db_open(const char* path, sqlite3* db) {
     if (sqlite3_open(path, &db) != SQLITE_OK) {

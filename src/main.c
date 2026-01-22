@@ -4,7 +4,7 @@
 int main(int argc, char** argv) {
     curl_global_init(0);
     pk_mode_t mode = MODE_NONE;
-    char config_path[MAX_URL] = "/etc/panik/panik.toml";
+    char config_path[MAX_URL] = "/etc/panik";
     char repository[MAX_NAME] = "";
 
     int opt;
