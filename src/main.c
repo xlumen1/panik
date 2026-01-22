@@ -11,11 +11,15 @@ int main(int argc, char** argv) {
 	int yes = 0;
 
     int opt;
-    while ((opt = getopt_long(argc, argv, "hR:C:ysuir", long_opts, NULL)) != -1) {
+    while ((opt = getopt_long(argc, argv, "hvR:C:ysuir", long_opts, NULL)) != -1) {
         switch (opt) {
         case 'h':
             show_help();
             return 0;
+
+		case 'v':
+			printf("Panik version 0.0.1\n");
+			return 0;
         
         case 'R':
             strncpy(repository, optarg, sizeof(repository) - 1);
@@ -31,22 +35,22 @@ int main(int argc, char** argv) {
 			break;
 
         case 's':
-            if (mode) return error("multiple modes specified");
+            if (mode) return error("Multiple modes specified");
             mode = MODE_SYNC;
             break;
         
         case 'u':
-            if (mode) return error("multiple modes specified");
+            if (mode) return error("Multiple modes specified");
             mode = MODE_UPGRADE;
             break;
         
         case 'i':
-            if (mode) return error("multiple modes specified");
+            if (mode) return error("Multiple modes specified");
             mode = MODE_INSTALL;
             break;
 
         case 'r':
-            if (mode) return error("multiple modes specified");
+            if (mode) return error("Multiple modes specified");
             mode = MODE_REMOVE;
             break;
 

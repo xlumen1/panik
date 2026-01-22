@@ -19,6 +19,7 @@
 
 static const struct option long_opts[] = {
     {"help",    no_argument,       0, 'h'},
+	{"version", no_argument,       0, 'v'},
     {"root",    required_argument, 0, 'R'},
     {"config",  required_argument, 0, 'C'},
 	{"yes",     no_argument,       0, 'y'},
