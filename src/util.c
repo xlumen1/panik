@@ -68,7 +68,7 @@ struct config getconfig(char path[256]) {
 }
 
 struct repos getrepos(char path[256]) {
-    struct repos repos = {};
+    struct repos repos = {0};
     FILE* fp = fopen(path, "r");
     if (!fp) {
         exit(error("Config file not found"));
