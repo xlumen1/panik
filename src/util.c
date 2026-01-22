@@ -15,6 +15,14 @@ int hash(char *str) {
 
 void show_help() {
     printf("Panik Help\n");
+	printf("Usage:\npanik [-C <dir>] [-R <repo>] {-h|-s [repo] ...|-i <package> ...|-u [package] ...|-r [package] ...}\n\n");
+	printf("-C --config        Set config directory.\n");
+	printf("-R --repo          Set target repository.\n");
+	printf("-h --help          Show this screen.\n");
+	printf("-s --sync          Update local index.\n");
+	printf("-i --install       Install packages.\n");
+	printf("-u --upgrade       Upgrade packages.\n");
+	printf("-r --remove        Remove packages.\n");
 }
 
 int error(char* e) {
