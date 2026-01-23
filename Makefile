@@ -70,6 +70,7 @@ install: $(BIN)
 	$(INSTALL) -m 0644 doc/panik.1 $(DESTDIR)$(MANDIR)/man1/panik.1
 	$(INSTALL) -d $(DESTDIR)$(CFGDIR)
 	$(INSTALL) -m 0644 cfg/panik.toml $(DESTDIR)$(CFGDIR)/panik.toml
+	$(MAKE) clean
 	$(INSTALL) -m 0644 cfg/repos.conf $(DESTDIR)$(CFGDIR)/repos.conf
 
 uninstall:
