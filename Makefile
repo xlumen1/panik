@@ -11,6 +11,7 @@ BUILD_TYPE ?= debug
 PREFIX  ?= /usr
 BINDIR  ?= $(PREFIX)/bin
 MANDIR  ?= $(PREFIX)/share/man
+CFGDIR  ?= /etc/panik
 INSTALL ?= install
 
 
@@ -67,6 +68,9 @@ install: $(BIN)
 	$(INSTALL) -m 0755 $(BIN) $(DESTDIR)$(BINDIR)/panik
 	$(INSTALL) -d $(DESTDIR)$(MANDIR)/man1
 	$(INSTALL) -m 0644 doc/panik.1 $(DESTDIR)$(MANDIR)/man1/panik.1
+	$(INSTALL) -d $(DESTDIR)$(CFGDIR)
+	$(INSTALL) -m 0644 cfg/panik.toml $(DESTDIR)$(CFGDIR)/panik.toml
+	$(INSTALL) -m 0644 cfg/repos.conf $(DESTDIR)$(CFGDIR)/repos.conf
 
 uninstall:
 	rm -f $(DESTDIR)$(BINDIR)/panik
